@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Phase 2: Content Pipeline — Design Preview</title>
+<title>YouTube Video Automation Pipeline — Phase 2 Infographic</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
 
   :root {
-    /* Claude.ai inspired palette */
     --bg-primary: #FAF6F1;
     --bg-secondary: #F5EDE4;
     --bg-dark: #1A1A2E;
@@ -21,9 +20,12 @@
     --accent-coral: #D4714E;
     --success: #22C55E;
     --error: #EF4444;
+    --info: #3B82F6;
+    --purple: #8B5CF6;
     --border: #E8DDD0;
     --card-bg: #FFFFFF;
     --card-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.04);
+    --card-shadow-hover: 0 4px 12px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.06);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,74 +37,104 @@
     line-height: 1.6;
   }
 
-  /* Header */
-  .header {
-    background: linear-gradient(135deg, #2D2D2D 0%, #1A1A2E 100%);
+  /* ───── Hero ───── */
+  .hero {
+    background: linear-gradient(135deg, #2D2D2D 0%, #1A1A2E 50%, #0F0F23 100%);
     color: white;
-    padding: 40px 0;
+    padding: 60px 24px 48px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
   }
-  .header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    margin-bottom: 8px;
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 70% 30%, rgba(255,135,0,0.08) 0%, transparent 50%);
   }
-  .header .subtitle {
+  .hero-label {
+    display: inline-block;
+    background: rgba(255,135,0,0.15);
     color: var(--accent-orange);
-    font-size: 14px;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    position: relative;
   }
-  .header .desc {
+  .hero h1 {
+    font-size: 36px;
+    font-weight: 800;
+    margin-bottom: 8px;
+    position: relative;
+  }
+  .hero h1 span { color: var(--accent-orange); }
+  .hero .hero-sub {
     color: #aaa;
-    font-size: 15px;
-    margin-top: 12px;
+    font-size: 16px;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .hero-stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    position: relative;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat .stat-num {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--accent-orange);
+  }
+  .hero-stat .stat-label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
   }
 
-  /* Navigation */
+  /* ───── Nav ───── */
   .nav {
     background: var(--card-bg);
     border-bottom: 1px solid var(--border);
-    padding: 0 40px;
+    padding: 0 24px;
     position: sticky;
     top: 0;
     z-index: 100;
     display: flex;
     gap: 0;
     overflow-x: auto;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
   }
   .nav a {
-    padding: 14px 20px;
+    padding: 14px 18px;
     text-decoration: none;
     color: var(--text-secondary);
-    font-size: 13px;
-    font-weight: 500;
+    font-size: 12px;
+    font-weight: 600;
     border-bottom: 2px solid transparent;
     white-space: nowrap;
     transition: all 0.2s;
   }
-  .nav a:hover, .nav a.active {
-    color: var(--accent-warm);
-    border-bottom-color: var(--accent-orange);
-  }
+  .nav a:hover { color: var(--accent-warm); border-bottom-color: var(--accent-orange); }
 
-  /* Container */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 40px 24px;
-  }
+  /* ───── Container ───── */
+  .container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
 
-  /* Section */
-  .section {
-    margin-bottom: 48px;
-  }
+  /* ───── Section ───── */
+  .section { margin-bottom: 56px; }
   .section-title {
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--text-primary);
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
   }
   .section-desc {
     font-size: 14px;
@@ -110,14 +142,32 @@
     margin-bottom: 24px;
   }
 
-  /* Cards */
+  /* ───── Editable Badge ───── */
+  .editable {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: #FFF7ED;
+    border: 1px solid #FED7AA;
+    color: #92400E;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+
+  /* ───── Card ───── */
   .card {
     background: var(--card-bg);
     border-radius: 12px;
     border: 1px solid var(--border);
     box-shadow: var(--card-shadow);
     overflow: hidden;
+    transition: box-shadow 0.2s;
   }
+  .card:hover { box-shadow: var(--card-shadow-hover); }
   .card-header {
     padding: 16px 24px;
     border-bottom: 1px solid var(--border);
@@ -127,157 +177,92 @@
     align-items: center;
     gap: 8px;
   }
-  .card-body {
-    padding: 24px;
-  }
+  .card-body { padding: 24px; }
 
-  /* Terminal Mockup */
-  .terminal {
-    background: var(--bg-terminal);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
-  }
-  .terminal-bar {
-    background: #161B22;
-    padding: 10px 16px;
+  /* ───── Phase Timeline ───── */
+  .phase-timeline {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    gap: 16px;
+    margin-bottom: 32px;
   }
-  .terminal-dot {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
-  .terminal-dot.red { background: #FF5F56; }
-  .terminal-dot.yellow { background: #FFBD2E; }
-  .terminal-dot.green { background: #27C93F; }
-  .terminal-title {
-    color: #8B949E;
-    font-size: 12px;
-    margin-left: 8px;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .terminal-body {
-    padding: 20px 24px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.7;
-    color: #E6EDF3;
-  }
-  .t-orange { color: #FF8700; font-weight: 600; }
-  .t-green { color: #22C55E; }
-  .t-red { color: #EF4444; }
-  .t-muted { color: #8B949E; }
-  .t-white { color: #F0F6FC; font-weight: 600; }
-  .t-cyan { color: #58A6FF; }
-
-  /* Progress bar in terminal */
-  .progress-bar {
-    display: inline-block;
-    width: 240px;
-    height: 14px;
-    background: #21262D;
-    border-radius: 3px;
-    overflow: hidden;
-    vertical-align: middle;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--accent-orange);
-    border-radius: 3px;
-    transition: width 2s ease;
-  }
-
-  /* Rich Panel mockup */
-  .rich-panel {
-    border: 1px solid #30363D;
-    border-radius: 8px;
-    margin: 8px 0 16px;
-    overflow: hidden;
-  }
-  .rich-panel-header {
-    padding: 8px 16px;
-    border-bottom: 1px solid #30363D;
-  }
-  .rich-panel-body {
-    padding: 12px 16px;
-  }
-
-  /* Flow Diagram */
-  .flow {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0;
-    padding: 32px 0;
-  }
-  .flow-step {
+  .phase-card {
+    flex: 1;
     background: var(--card-bg);
-    border: 2px solid var(--border);
+    border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 16px 32px;
-    text-align: center;
-    min-width: 220px;
+    padding: 24px;
     position: relative;
-    transition: all 0.2s;
+    overflow: hidden;
   }
-  .flow-step:hover {
-    border-color: var(--accent-orange);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255,135,0,0.15);
-  }
-  .flow-step .step-name {
-    font-weight: 600;
-    font-size: 15px;
-  }
-  .flow-step .step-model {
-    font-size: 12px;
-    color: var(--text-secondary);
-    margin-top: 4px;
-  }
-  .flow-step .step-badge {
-    display: inline-block;
-    background: var(--bg-secondary);
-    color: var(--accent-warm);
-    font-size: 11px;
-    font-weight: 600;
-    padding: 2px 8px;
-    border-radius: 4px;
-    margin-top: 6px;
-  }
-  .flow-arrow {
-    width: 2px;
-    height: 32px;
-    background: var(--border);
-    position: relative;
-  }
-  .flow-arrow::after {
-    content: '▼';
+  .phase-card.active { border-color: var(--accent-orange); }
+  .phase-card.active::before {
+    content: '';
     position: absolute;
-    bottom: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: var(--accent-orange);
-    font-size: 10px;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--accent-orange);
   }
-  .flow-parallel {
-    display: flex;
-    gap: 24px;
-    align-items: flex-start;
+  .phase-card.done::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--success);
   }
-  .flow-parallel-line {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    gap: 24px;
+  .phase-num {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .phase-card.done .phase-num { color: var(--success); }
+  .phase-card.active .phase-num { color: var(--accent-orange); }
+  .phase-card.pending .phase-num { color: var(--text-muted); }
+  .phase-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .phase-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .progress-track {
+    height: 6px;
+    background: var(--bg-secondary);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .progress-fill-bar {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+  .progress-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 600;
   }
 
-  /* Provider Grid */
+  /* ───── SVG Diagrams ───── */
+  .diagram-wrap {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: var(--card-shadow);
+    overflow-x: auto;
+    text-align: center;
+  }
+  .diagram-wrap svg { max-width: 100%; height: auto; }
+
+  /* ───── Provider Grid ───── */
   .provider-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 12px;
   }
   .provider-card {
@@ -302,7 +287,7 @@
   .provider-name { font-weight: 600; font-size: 13px; }
   .provider-desc { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
 
-  /* Model Table */
+  /* ───── Model Table ───── */
   .model-table {
     width: 100%;
     border-collapse: collapse;
@@ -313,7 +298,7 @@
     padding: 10px 16px;
     background: var(--bg-secondary);
     font-weight: 600;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -322,9 +307,8 @@
     padding: 12px 16px;
     border-bottom: 1px solid var(--border);
   }
-  .model-table tr:hover td {
-    background: #FFFAF5;
-  }
+  .model-table tr:hover td { background: #FFFAF5; }
+
   .badge {
     display: inline-block;
     padding: 2px 8px;
@@ -337,8 +321,44 @@
   .badge-yes { background: #ECFDF5; color: #059669; }
   .badge-no { background: #FEF2F2; color: #DC2626; }
   .badge-quant { background: #FFF7ED; color: #D97706; }
+  .badge-done { background: #ECFDF5; color: #059669; }
+  .badge-pending { background: #FEF2F2; color: #DC2626; }
+  .badge-inprog { background: #FFF7ED; color: #D97706; }
+  .badge-new { background: #EFF6FF; color: #2563EB; }
 
-  /* Wave Timeline */
+  /* ───── Requirements Grid ───── */
+  .req-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+  .req-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .req-card:hover { box-shadow: var(--card-shadow); }
+  .req-card.done { border-left: 3px solid var(--success); }
+  .req-card.pending { border-left: 3px solid var(--error); opacity: 0.8; }
+  .req-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .req-text {
+    font-size: 12px;
+    color: var(--text-secondary);
+    margin-top: 2px;
+  }
+
+  /* ───── Wave Timeline ───── */
   .wave-timeline {
     display: flex;
     gap: 16px;
@@ -357,9 +377,7 @@
   .wave-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
+    top: 0; left: 0; right: 0;
     height: 3px;
     border-radius: 10px 10px 0 0;
   }
@@ -373,13 +391,10 @@
     color: var(--accent-orange);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
-  .wave-title {
-    font-weight: 600;
-    font-size: 14px;
-    margin-bottom: 8px;
-  }
+  .wave-title { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
+  .wave-status { font-size: 11px; margin-bottom: 8px; }
   .wave-plans {
     font-size: 12px;
     color: var(--text-secondary);
@@ -392,7 +407,67 @@
     font-size: 11px;
   }
 
-  /* API Cards */
+  /* ───── Terminal ───── */
+  .terminal {
+    background: var(--bg-terminal);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  }
+  .terminal-bar {
+    background: #161B22;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .terminal-dot { width: 12px; height: 12px; border-radius: 50%; }
+  .terminal-dot.red { background: #FF5F56; }
+  .terminal-dot.yellow { background: #FFBD2E; }
+  .terminal-dot.green { background: #27C93F; }
+  .terminal-title {
+    color: #8B949E;
+    font-size: 12px;
+    margin-left: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .terminal-body {
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #E6EDF3;
+  }
+  .t-orange { color: #FF8700; font-weight: 600; }
+  .t-green { color: #22C55E; }
+  .t-red { color: #EF4444; }
+  .t-muted { color: #8B949E; }
+  .t-white { color: #F0F6FC; font-weight: 600; }
+  .t-cyan { color: #58A6FF; }
+  .rich-panel {
+    border: 1px solid #30363D;
+    border-radius: 8px;
+    margin: 8px 0 16px;
+    overflow: hidden;
+  }
+  .rich-panel-header { padding: 8px 16px; border-bottom: 1px solid #30363D; }
+  .rich-panel-body { padding: 12px 16px; }
+  .progress-bar-term {
+    display: inline-block;
+    width: 240px;
+    height: 14px;
+    background: #21262D;
+    border-radius: 3px;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--accent-orange);
+    border-radius: 3px;
+  }
+
+  /* ───── API Cards ───── */
   .api-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -405,10 +480,7 @@
     padding: 20px;
     transition: all 0.2s;
   }
-  .api-card:hover {
-    box-shadow: var(--card-shadow);
-    transform: translateY(-1px);
-  }
+  .api-card:hover { box-shadow: var(--card-shadow); transform: translateY(-1px); }
   .api-method {
     display: inline-block;
     padding: 3px 10px;
@@ -427,50 +499,68 @@
     font-weight: 500;
     margin-bottom: 8px;
   }
-  .api-desc {
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
+  .api-desc { font-size: 13px; color: var(--text-secondary); }
 
-  /* Color Palette */
-  .color-grid {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
+  /* ───── Cost Infographic ───── */
+  .cost-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
   }
-  .color-swatch {
+  .cost-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
     text-align: center;
   }
+  .cost-step { font-size: 12px; color: var(--text-secondary); margin-bottom: 4px; }
+  .cost-amount { font-size: 20px; font-weight: 800; }
+  .cost-amount.free { color: var(--success); }
+  .cost-amount.paid { color: var(--accent-orange); }
+  .cost-provider { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .cost-total {
+    background: linear-gradient(135deg, #2D2D2D, #1A1A2E);
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    color: white;
+    margin-top: 16px;
+  }
+  .cost-total-num {
+    font-size: 40px;
+    font-weight: 800;
+    color: var(--accent-orange);
+  }
+  .cost-total-label { font-size: 14px; color: #aaa; }
+  .cost-total-monthly { font-size: 12px; color: #666; margin-top: 4px; }
+
+  /* ───── Color Palette ───── */
+  .color-grid { display: flex; gap: 16px; flex-wrap: wrap; }
+  .color-swatch { text-align: center; }
   .color-circle {
-    width: 64px;
-    height: 64px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    margin: 0 auto 8px;
+    margin: 0 auto 6px;
     border: 3px solid var(--card-bg);
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   }
-  .color-label {
-    font-size: 12px;
-    font-weight: 600;
-  }
+  .color-label { font-size: 11px; font-weight: 600; }
   .color-hex {
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-secondary);
     font-family: 'JetBrains Mono', monospace;
   }
-  .color-role {
-    font-size: 11px;
-    color: var(--text-muted);
-    margin-top: 2px;
-  }
+  .color-role { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
-  /* Channel Config Preview */
+  /* ───── YAML Preview ───── */
   .yaml-preview {
     background: #1E293B;
     border-radius: 8px;
     padding: 20px 24px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.8;
     color: #E2E8F0;
     overflow-x: auto;
@@ -479,21 +569,23 @@
   .yaml-val { color: #FDE68A; }
   .yaml-comment { color: #64748B; }
 
-  /* Editable hint */
-  .edit-hint {
-    background: #FFF7ED;
-    border: 1px solid #FED7AA;
+  /* ───── File Tree ───── */
+  .file-tree {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.9;
+    background: #1E293B;
     border-radius: 8px;
-    padding: 12px 16px;
-    font-size: 13px;
-    color: #92400E;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    padding: 20px 24px;
+    color: #E2E8F0;
+    overflow-x: auto;
   }
+  .ft-dir { color: #7DD3FC; font-weight: 600; }
+  .ft-file { color: #E2E8F0; }
+  .ft-new { color: var(--accent-orange); font-weight: 600; }
+  .ft-done { color: var(--success); }
 
-  /* Footer */
+  /* ───── Footer ───── */
   .footer {
     text-align: center;
     padding: 40px;
@@ -503,486 +595,769 @@
     margin-top: 40px;
   }
 
-  /* Responsive */
+  /* ───── Responsive ───── */
   @media (max-width: 768px) {
-    .flow-parallel { flex-direction: column; align-items: center; }
+    .hero h1 { font-size: 24px; }
+    .hero-stats { gap: 20px; }
+    .hero-stat .stat-num { font-size: 24px; }
+    .phase-timeline { flex-direction: column; }
     .wave-timeline { flex-direction: column; }
     .provider-grid { grid-template-columns: repeat(2, 1fr); }
+    .req-grid { grid-template-columns: 1fr; }
+    .cost-grid { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
 </head>
 <body>
 
-<!-- Header -->
-<div class="header">
-  <div class="subtitle">Phase 2 Design Preview</div>
-  <h1>Content Pipeline</h1>
-  <div class="desc">토픽 하나로 YouTube 영상 자동 생성 — Provider-Swappable Architecture</div>
+<!-- ════════ HERO ════════ -->
+<div class="hero">
+  <div class="hero-label">YouTube Video Automation Pipeline</div>
+  <h1>Phase 2: <span>Content Pipeline</span></h1>
+  <div class="hero-sub">토픽 하나로 완성된 YouTube 영상을 자동 생성 — Provider-Swappable Architecture</div>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Phases</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-num">7</div>
+      <div class="stat-label">Providers</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-num">22</div>
+      <div class="stat-label">Requirements</div>
+    </div>
+    <div class="hero-stat">
+      <div class="stat-num">~$1.75</div>
+      <div class="stat-label">per Video</div>
+    </div>
+  </div>
 </div>
 
-<!-- Nav -->
+<!-- ════════ NAV ════════ -->
 <div class="nav">
-  <a href="#cli" class="active">CLI Preview</a>
-  <a href="#flow">Pipeline Flow</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#architecture">Architecture</a>
+  <a href="#pipeline">Pipeline Flow</a>
   <a href="#providers">Providers</a>
   <a href="#models">Models</a>
-  <a href="#waves">Wave Plan</a>
+  <a href="#requirements">Requirements</a>
+  <a href="#waves">Waves</a>
+  <a href="#cli">CLI Preview</a>
   <a href="#api">API</a>
-  <a href="#colors">Color System</a>
-  <a href="#channel">Channel Config</a>
+  <a href="#cost">Cost</a>
+  <a href="#colors">Colors</a>
+  <a href="#channel">Config</a>
+  <a href="#files">Files</a>
 </div>
 
 <div class="container">
 
-  <div class="edit-hint">
-    ✏️ 이 페이지는 Phase 2 디자인 프리뷰입니다. 수정하고 싶은 부분이 있으면 Claude에게 말씀해주세요.
+<!-- ════════ PHASE TIMELINE ════════ -->
+<div class="section" id="timeline">
+  <div class="section-title">Phase Timeline</div>
+  <div class="section-desc">3개 Phase로 구성된 전체 프로젝트 진행 현황</div>
+
+  <div class="phase-timeline">
+    <div class="phase-card done">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-name">Infrastructure</div>
+      <div class="phase-desc">Temporal, SQLite, Worker Pools, Artifact Structure</div>
+      <div class="progress-track">
+        <div class="progress-fill-bar" style="width:100%;background:var(--success);"></div>
+      </div>
+      <div class="progress-label">4/4 Plans — Complete (2026-04-02)</div>
+    </div>
+    <div class="phase-card active">
+      <div class="phase-num">Phase 2 (Current)</div>
+      <div class="phase-name">Content Pipeline</div>
+      <div class="phase-desc">Script -> Image/Video -> TTS -> FFmpeg -> YouTube</div>
+      <div class="progress-track">
+        <div class="progress-fill-bar" style="width:71%;background:var(--accent-orange);"></div>
+      </div>
+      <div class="progress-label">5/7 Plans Executed — In Progress</div>
+    </div>
+    <div class="phase-card pending">
+      <div class="phase-num">Phase 3</div>
+      <div class="phase-name">Production Ops</div>
+      <div class="phase-desc">Quality Gate, Batch, Calendar, Cost Dashboard</div>
+      <div class="progress-track">
+        <div class="progress-fill-bar" style="width:0%;background:var(--text-muted);"></div>
+      </div>
+      <div class="progress-label">0/TBD Plans — Not Started</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ ARCHITECTURE (SVG) ════════ -->
+<div class="section" id="architecture">
+  <div class="section-title">System Architecture</div>
+  <div class="section-desc">FastAPI + Temporal + Provider Registry 기반 전체 구조도</div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 900 520" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <!-- Background -->
+      <defs>
+        <linearGradient id="gOrange" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#FF8700"/>
+          <stop offset="100%" stop-color="#E8733A"/>
+        </linearGradient>
+        <linearGradient id="gDark" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#2D2D2D"/>
+          <stop offset="100%" stop-color="#1A1A2E"/>
+        </linearGradient>
+        <linearGradient id="gGreen" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#22C55E"/>
+          <stop offset="100%" stop-color="#16A34A"/>
+        </linearGradient>
+        <linearGradient id="gBlue" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#3B82F6"/>
+          <stop offset="100%" stop-color="#2563EB"/>
+        </linearGradient>
+        <filter id="shadow" x="-5%" y="-5%" width="110%" height="115%">
+          <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.1"/>
+        </filter>
+      </defs>
+
+      <!-- FastAPI -->
+      <rect x="350" y="10" width="200" height="44" rx="8" fill="url(#gOrange)" filter="url(#shadow)"/>
+      <text x="450" y="37" text-anchor="middle" fill="white" font-size="14" font-weight="700">FastAPI</text>
+
+      <!-- Arrow down -->
+      <line x1="450" y1="54" x2="450" y2="80" stroke="#ccc" stroke-width="2"/>
+      <polygon points="445,78 455,78 450,86" fill="#ccc"/>
+
+      <!-- Temporal -->
+      <rect x="310" y="88" width="280" height="44" rx="8" fill="url(#gDark)" filter="url(#shadow)"/>
+      <text x="450" y="115" text-anchor="middle" fill="white" font-size="14" font-weight="700">Temporal Orchestration</text>
+
+      <!-- Arrows to 3 workers -->
+      <line x1="370" y1="132" x2="150" y2="170" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="450" y1="132" x2="450" y2="170" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="530" y1="132" x2="750" y2="170" stroke="#ccc" stroke-width="1.5"/>
+
+      <!-- GPU Worker -->
+      <rect x="50" y="172" width="200" height="44" rx="8" fill="#059669" filter="url(#shadow)"/>
+      <text x="150" y="199" text-anchor="middle" fill="white" font-size="12" font-weight="600">GPU Worker (max=1)</text>
+
+      <!-- CPU Worker -->
+      <rect x="350" y="172" width="200" height="44" rx="8" fill="url(#gBlue)" filter="url(#shadow)"/>
+      <text x="450" y="199" text-anchor="middle" fill="white" font-size="12" font-weight="600">CPU Worker</text>
+
+      <!-- API Worker -->
+      <rect x="650" y="172" width="200" height="44" rx="8" fill="#8B5CF6" filter="url(#shadow)"/>
+      <text x="750" y="199" text-anchor="middle" fill="white" font-size="12" font-weight="600">API Worker</text>
+
+      <!-- Arrow from workers to Provider Registry -->
+      <line x1="150" y1="216" x2="150" y2="270" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="450" y1="216" x2="450" y2="270" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="750" y1="216" x2="750" y2="270" stroke="#ccc" stroke-width="1.5"/>
+
+      <!-- Provider Registry -->
+      <rect x="80" y="272" width="740" height="48" rx="10" fill="url(#gOrange)" filter="url(#shadow)"/>
+      <text x="450" y="302" text-anchor="middle" fill="white" font-size="15" font-weight="700">Provider Registry — ModelSpec.parse("provider:model")</text>
+
+      <!-- 7 Provider boxes -->
+      <g transform="translate(30,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">Local</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">Ollama/ComfyUI</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#6B6B6B">CosyVoice/Wan2GP</text>
+      </g>
+      <g transform="translate(150,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">fal.ai</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">600+ models</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#D97706">$0.07/s video</text>
+      </g>
+      <g transform="translate(270,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">Replicate</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">Open-source</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#6B6B6B">catalog</text>
+      </g>
+      <g transform="translate(390,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">Together.ai</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">200+ LLMs</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#6B6B6B">Fine-tuning</text>
+      </g>
+      <g transform="translate(510,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">Fireworks.ai</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">Low-latency</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#6B6B6B">LLM inference</text>
+      </g>
+      <g transform="translate(630,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">Krea.ai</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">Creative</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#6B6B6B">image gen</text>
+      </g>
+      <g transform="translate(750,340)">
+        <rect x="0" y="0" width="110" height="56" rx="6" fill="white" stroke="#E8DDD0" stroke-width="1" filter="url(#shadow)"/>
+        <text x="55" y="22" text-anchor="middle" font-size="10" font-weight="700" fill="#2D2D2D">WaveSpeed</text>
+        <text x="55" y="38" text-anchor="middle" font-size="8" fill="#6B6B6B">Wan optimized</text>
+        <text x="55" y="50" text-anchor="middle" font-size="8" fill="#6B6B6B">inference</text>
+      </g>
+
+      <!-- Arrows from registry to providers -->
+      <line x1="150" y1="320" x2="85" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+      <line x1="250" y1="320" x2="205" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+      <line x1="350" y1="320" x2="325" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+      <line x1="450" y1="320" x2="445" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+      <line x1="550" y1="320" x2="565" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+      <line x1="650" y1="320" x2="685" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+      <line x1="750" y1="320" x2="805" y2="340" stroke="#E8DDD0" stroke-width="1"/>
+
+      <!-- Data Layer -->
+      <rect x="250" y="430" width="160" height="44" rx="8" fill="#0EA5E9" filter="url(#shadow)"/>
+      <text x="330" y="457" text-anchor="middle" fill="white" font-size="12" font-weight="600">SQLite (SSOT)</text>
+
+      <rect x="490" y="430" width="160" height="44" rx="8" fill="#8B5CF6" filter="url(#shadow)"/>
+      <text x="570" y="457" text-anchor="middle" fill="white" font-size="12" font-weight="600">Google Sheets</text>
+
+      <!-- Arrow between DB and Sheets -->
+      <line x1="410" y1="452" x2="490" y2="452" stroke="#ccc" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <text x="450" y="445" text-anchor="middle" font-size="9" fill="#999">sync</text>
+
+      <!-- Arrow from providers to data -->
+      <line x1="450" y1="396" x2="450" y2="430" stroke="#ccc" stroke-width="1.5"/>
+
+      <!-- Legend -->
+      <text x="20" y="510" font-size="9" fill="#999">GPU Worker: Image/Video/LLM/TTS  |  CPU Worker: FFmpeg/Thumbnail  |  API Worker: YouTube/fal.ai/Sheets</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ════════ PIPELINE FLOW (SVG) ════════ -->
+<div class="section" id="pipeline">
+  <div class="section-title">Pipeline Flow</div>
+  <div class="section-desc">토픽 입력 -> YouTube 업로드까지 전체 흐름 + 비용 추적</div>
+
+  <div class="diagram-wrap">
+    <svg viewBox="0 0 900 480" xmlns="http://www.w3.org/2000/svg" font-family="Inter, sans-serif">
+      <!-- Topic Input -->
+      <rect x="350" y="10" width="200" height="44" rx="22" fill="url(#gOrange)" filter="url(#shadow)"/>
+      <text x="450" y="37" text-anchor="middle" fill="white" font-size="13" font-weight="700">Topic Input</text>
+
+      <line x1="450" y1="54" x2="450" y2="72" stroke="#ccc" stroke-width="2"/>
+      <polygon points="445,70 455,70 450,78" fill="#ccc"/>
+
+      <!-- Script Gen -->
+      <rect x="330" y="80" width="240" height="52" rx="8" fill="white" stroke="#E8DDD0" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="450" y="102" text-anchor="middle" font-size="12" font-weight="700" fill="#2D2D2D">Script Generation</text>
+      <text x="450" y="120" text-anchor="middle" font-size="9" fill="#6B6B6B">Qwen3.5-9B (local) / Gemini 2.5 Pro (cloud)</text>
+      <text x="570" y="102" font-size="9" fill="#059669" font-weight="600">$0.00</text>
+
+      <line x1="450" y1="132" x2="450" y2="148" stroke="#ccc" stroke-width="1.5"/>
+
+      <!-- Parallel: Image + TTS -->
+      <line x1="450" y1="148" x2="250" y2="164" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="450" y1="148" x2="650" y2="164" stroke="#ccc" stroke-width="1.5"/>
+
+      <rect x="130" y="166" width="240" height="52" rx="8" fill="white" stroke="#E8DDD0" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="250" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="#2D2D2D">Image Generation</text>
+      <text x="250" y="206" text-anchor="middle" font-size="9" fill="#6B6B6B">SDXL / FLUX (local) / fal.ai (cloud)</text>
+      <text x="370" y="188" font-size="9" fill="#059669" font-weight="600">$0.00</text>
+
+      <rect x="530" y="166" width="240" height="52" rx="8" fill="white" stroke="#E8DDD0" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="650" y="188" text-anchor="middle" font-size="12" font-weight="700" fill="#2D2D2D">TTS Generation</text>
+      <text x="650" y="206" text-anchor="middle" font-size="9" fill="#6B6B6B">CosyVoice2 (local, Korean #1)</text>
+      <text x="770" y="188" font-size="9" fill="#059669" font-weight="600">$0.00</text>
+
+      <!-- Merge & Video Gen -->
+      <line x1="250" y1="218" x2="250" y2="250" stroke="#ccc" stroke-width="1.5"/>
+
+      <rect x="130" y="252" width="240" height="52" rx="8" fill="white" stroke="#E8DDD0" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="250" y="274" text-anchor="middle" font-size="12" font-weight="700" fill="#2D2D2D">Video Generation (opt.)</text>
+      <text x="250" y="292" text-anchor="middle" font-size="9" fill="#6B6B6B">Wan2GP / Kling 2.5 / Ken Burns</text>
+      <text x="370" y="274" font-size="9" fill="#D97706" font-weight="600">~$1.75</text>
+
+      <!-- Both merge to FFmpeg -->
+      <line x1="250" y1="304" x2="450" y2="340" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="650" y1="218" x2="450" y2="340" stroke="#ccc" stroke-width="1.5"/>
+
+      <!-- FFmpeg -->
+      <rect x="330" y="342" width="240" height="52" rx="8" fill="white" stroke="#E8DDD0" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="450" y="364" text-anchor="middle" font-size="12" font-weight="700" fill="#2D2D2D">FFmpeg Assembly</text>
+      <text x="450" y="382" text-anchor="middle" font-size="9" fill="#6B6B6B">NVENC encoding + crossfade transitions</text>
+      <text x="570" y="364" font-size="9" fill="#059669" font-weight="600">$0.00</text>
+
+      <line x1="450" y1="394" x2="450" y2="410" stroke="#ccc" stroke-width="1.5"/>
+
+      <!-- Parallel: Thumbnail + Upload -->
+      <line x1="450" y1="410" x2="250" y2="422" stroke="#ccc" stroke-width="1.5"/>
+      <line x1="450" y1="410" x2="650" y2="422" stroke="#ccc" stroke-width="1.5"/>
+
+      <rect x="130" y="424" width="240" height="44" rx="8" fill="white" stroke="#E8DDD0" stroke-width="1.5" filter="url(#shadow)"/>
+      <text x="250" y="450" text-anchor="middle" font-size="12" font-weight="700" fill="#2D2D2D">Thumbnail Gen</text>
+      <text x="370" y="450" font-size="9" fill="#059669" font-weight="600">$0.00</text>
+
+      <rect x="530" y="424" width="240" height="44" rx="22" fill="url(#gGreen)" filter="url(#shadow)"/>
+      <text x="650" y="451" text-anchor="middle" fill="white" font-size="12" font-weight="700">YouTube Upload</text>
+
+      <!-- Cost tracker overlay -->
+      <rect x="700" y="85" width="170" height="100" rx="8" fill="#1A1A2E" filter="url(#shadow)" opacity="0.95"/>
+      <text x="785" y="106" text-anchor="middle" fill="#FF8700" font-size="10" font-weight="700">COST TRACKER</text>
+      <text x="720" y="126" fill="#8B949E" font-size="9">Script:</text>
+      <text x="850" y="126" text-anchor="end" fill="#22C55E" font-size="9">$0.00</text>
+      <text x="720" y="142" fill="#8B949E" font-size="9">Image x10:</text>
+      <text x="850" y="142" text-anchor="end" fill="#22C55E" font-size="9">$0.00</text>
+      <text x="720" y="158" fill="#8B949E" font-size="9">Video x5:</text>
+      <text x="850" y="158" text-anchor="end" fill="#FF8700" font-size="9">$1.75</text>
+      <line x1="720" y1="164" x2="850" y2="164" stroke="#30363D" stroke-width="1"/>
+      <text x="720" y="180" fill="white" font-size="10" font-weight="700">Total:</text>
+      <text x="850" y="180" text-anchor="end" fill="#FF8700" font-size="11" font-weight="700">$1.75</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ════════ PROVIDERS ════════ -->
+<div class="section" id="providers">
+  <div class="section-title">Provider Architecture <span class="editable">수정 가능</span></div>
+  <div class="section-desc">channel YAML에서 "provider:model" 형식으로 자유롭게 교체 — 7개 프로바이더 지원</div>
+
+  <div class="provider-grid">
+    <div class="provider-card active">
+      <div class="provider-icon">💻</div>
+      <div class="provider-name">Local</div>
+      <div class="provider-desc">Ollama, ComfyUI, CosyVoice, Wan2GP</div>
+    </div>
+    <div class="provider-card active">
+      <div class="provider-icon">⚡</div>
+      <div class="provider-name">fal.ai</div>
+      <div class="provider-desc">600+ models, $0.07/s video</div>
+    </div>
+    <div class="provider-card">
+      <div class="provider-icon">🔄</div>
+      <div class="provider-name">Replicate</div>
+      <div class="provider-desc">Open-source catalog</div>
+    </div>
+    <div class="provider-card">
+      <div class="provider-icon">🤝</div>
+      <div class="provider-name">Together.ai</div>
+      <div class="provider-desc">200+ LLMs, fine-tuning</div>
+    </div>
+    <div class="provider-card">
+      <div class="provider-icon">🔥</div>
+      <div class="provider-name">Fireworks.ai</div>
+      <div class="provider-desc">Low-latency LLM</div>
+    </div>
+    <div class="provider-card">
+      <div class="provider-icon">🎨</div>
+      <div class="provider-name">Krea.ai</div>
+      <div class="provider-desc">Creative image gen</div>
+    </div>
+    <div class="provider-card">
+      <div class="provider-icon">🌊</div>
+      <div class="provider-name">WaveSpeed</div>
+      <div class="provider-desc">Wan optimized inference</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ MODELS ════════ -->
+<div class="section" id="models">
+  <div class="section-title">Model Selection (RTX 4070 8GB) <span class="editable">수정 가능</span></div>
+  <div class="section-desc">PC 사양에 맞춰 선택된 기본 모델 + 교체 가능 옵션</div>
+
+  <!-- Video -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">Video Generation</div>
+    <div class="card-body" style="padding:0;overflow-x:auto;">
+      <table class="model-table">
+        <tr><th>#</th><th>Model</th><th>VRAM</th><th>8GB?</th><th>Quality</th><th>Provider</th></tr>
+        <tr><td>1</td><td><strong>Wan 2.6</strong> via Wan2GP</td><td>~8GB (Q)</td><td><span class="badge badge-quant">Quantized</span></td><td>5/5</td><td><span class="badge badge-local">Local</span></td></tr>
+        <tr><td>2</td><td><strong>Kling 2.5 Turbo</strong></td><td>Cloud</td><td><span class="badge badge-yes">Cloud</span></td><td>5/5</td><td><span class="badge badge-cloud">fal.ai $0.07/s</span></td></tr>
+        <tr><td>3</td><td><strong>Wan 2.5</strong></td><td>~8GB (Q)</td><td><span class="badge badge-quant">Quantized</span></td><td>5/5</td><td><span class="badge badge-local">Local</span> <span class="badge badge-cloud">fal/replicate</span></td></tr>
+        <tr><td>4</td><td><strong>Ken Burns</strong> (fallback)</td><td>0GB</td><td><span class="badge badge-yes">YES</span></td><td>2/5</td><td><span class="badge badge-local">Local (Free)</span></td></tr>
+      </table>
+    </div>
   </div>
 
-  <!-- CLI Preview -->
-  <div class="section" id="cli">
-    <div class="section-title">CLI 실시간 출력 (rich)</div>
-    <div class="section-desc">파이프라인 실행 시 터미널에 표시되는 실시간 진행 화면</div>
+  <!-- Image -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">Image Generation</div>
+    <div class="card-body" style="padding:0;overflow-x:auto;">
+      <table class="model-table">
+        <tr><th>#</th><th>Model</th><th>VRAM</th><th>8GB?</th><th>Quality</th><th>Speed</th></tr>
+        <tr><td>1</td><td><strong>SDXL</strong> Juggernaut XL</td><td>6GB</td><td><span class="badge badge-yes">YES</span></td><td>4/5</td><td>5-15s</td></tr>
+        <tr><td>2</td><td><strong>FLUX.1-schnell</strong> Q4 GGUF</td><td>~6GB</td><td><span class="badge badge-quant">Q4</span></td><td>4/5</td><td>15-20s</td></tr>
+        <tr><td>3</td><td><strong>FLUX.1-dev</strong> Q5_K_S GGUF</td><td>~7-8GB</td><td><span class="badge badge-quant">Q5</span></td><td>5/5</td><td>45-60s</td></tr>
+      </table>
+    </div>
+  </div>
 
+  <!-- TTS -->
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">TTS (Korean)</div>
+    <div class="card-body" style="padding:0;overflow-x:auto;">
+      <table class="model-table">
+        <tr><th>#</th><th>Model</th><th>VRAM</th><th>Korean</th><th>License</th><th>Note</th></tr>
+        <tr><td>1</td><td><strong>CosyVoice2-0.5B</strong></td><td>~2GB</td><td>5/5</td><td>Apache 2.0</td><td>Korean official, 150ms</td></tr>
+        <tr><td>2</td><td><strong>Fish Speech S1-mini</strong></td><td>~2GB</td><td>4/5</td><td>CC BY-NC-SA</td><td>TTS Arena #1, voice clone</td></tr>
+        <tr><td>3</td><td><strong>Kokoro</strong></td><td>&lt;1GB</td><td>3/5</td><td>Apache 2.0</td><td>Ultra-light, 96x realtime</td></tr>
+        <tr style="background:#FEF2F2;"><td>-</td><td><s>IndexTTS-2</s></td><td>~4-8GB</td><td><span class="badge badge-no">N/A</span></td><td>Apache 2.0</td><td>Korean NOT supported</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- LLM -->
+  <div class="card">
+    <div class="card-header">LLM (Script Gen)</div>
+    <div class="card-body" style="padding:0;overflow-x:auto;">
+      <table class="model-table">
+        <tr><th>#</th><th>Model</th><th>VRAM (Q4)</th><th>Korean</th><th>Speed</th><th>Provider</th></tr>
+        <tr><td>1</td><td><strong>Qwen3.5-9B</strong></td><td>~7GB</td><td>5/5</td><td>54-58 t/s</td><td><span class="badge badge-local">Local</span></td></tr>
+        <tr><td>2</td><td><strong>Qwen3 8B</strong></td><td>~5-6GB</td><td>5/5</td><td>40+ t/s</td><td><span class="badge badge-local">Local</span></td></tr>
+        <tr><td>3</td><td><strong>Gemini 2.5 Pro</strong></td><td>Cloud</td><td>5/5</td><td>Fast</td><td><span class="badge badge-cloud">Google API</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ REQUIREMENTS ════════ -->
+<div class="section" id="requirements">
+  <div class="section-title">Requirements Matrix (22)</div>
+  <div class="section-desc">전체 요구사항 현황 — 14 Complete / 8 Pending</div>
+
+  <div class="req-grid">
+    <!-- Phase 1 (done) -->
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">ORCH-01 ✓</div><div class="req-text">Temporal workflow orchestration</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">ORCH-02 ✓</div><div class="req-text">GPU/CPU/API worker pool separation</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">ORCH-03 ✓</div><div class="req-text">Durable execution retry</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">DATA-01 ✓</div><div class="req-text">Sheets -> SQLite sync</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">DATA-02 ✓</div><div class="req-text">SQLite as SSOT during execution</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">DATA-03 ✓</div><div class="req-text">Results write-back to Sheets</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">FILE-01 ✓</div><div class="req-text">Artifact directory structure</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">FILE-02 ✓</div><div class="req-text">Cleanup activity</div></div></div>
+    <!-- Phase 2 -->
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">PIPE-01 ✓</div><div class="req-text">LLM script generation (JSON)</div></div></div>
+    <div class="req-card pending"><div><div class="req-id" style="color:#DC2626;">PIPE-02</div><div class="req-text">ComfyUI SDXL image generation</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">PIPE-03 ✓</div><div class="req-text">Korean TTS audio generation</div></div></div>
+    <div class="req-card pending"><div><div class="req-id" style="color:#DC2626;">PIPE-04</div><div class="req-text">FFmpeg NVENC video assembly</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">PIPE-05 ✓</div><div class="req-text">YouTube auto-upload + metadata</div></div></div>
+    <div class="req-card pending"><div><div class="req-id" style="color:#DC2626;">PIPE-06</div><div class="req-text">Thumbnail generation + overlay</div></div></div>
+    <div class="req-card pending"><div><div class="req-id" style="color:#DC2626;">VGEN-01</div><div class="req-text">fal.ai video clip generation</div></div></div>
+    <div class="req-card pending"><div><div class="req-id" style="color:#DC2626;">VGEN-02</div><div class="req-text">Per-video cost tracking</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">VGEN-03 ✓</div><div class="req-text">Video gen toggle in config</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">CHAN-01 ✓</div><div class="req-text">Channel config (Pydantic frozen)</div></div></div>
+    <div class="req-card done"><div><div class="req-id" style="color:#059669;">CHAN-02 ✓</div><div class="req-text">Single workflow, channel_id param</div></div></div>
+    <!-- Phase 3 -->
+    <div class="req-card pending"><div><div class="req-id" style="color:#DC2626;">OPS-01~06</div><div class="req-text">Quality gate, batch, calendar, cost dashboard (Phase 3)</div></div></div>
+  </div>
+</div>
+
+<!-- ════════ WAVES ════════ -->
+<div class="section" id="waves">
+  <div class="section-title">Execution Waves</div>
+  <div class="section-desc">7 Plans in 4 Waves — Wave 1~3 complete, Wave 4 pending</div>
+
+  <div class="wave-timeline">
+    <div class="wave-card">
+      <div class="wave-num">Wave 1</div>
+      <div class="wave-title">Foundation</div>
+      <div class="wave-status"><span class="badge badge-done">Complete</span></div>
+      <div class="wave-plans">
+        <code>02-01</code> Provider ABC + Schemas<br>
+        <code>02-02</code> Channel Config + Templates
+      </div>
+    </div>
+    <div class="wave-card">
+      <div class="wave-num">Wave 2</div>
+      <div class="wave-title">Gen Engines</div>
+      <div class="wave-status"><span class="badge badge-done">Complete</span></div>
+      <div class="wave-plans">
+        <code>02-03</code> Script + TTS<br>
+        <code>02-04</code> Image + Video + Cost
+      </div>
+    </div>
+    <div class="wave-card">
+      <div class="wave-num">Wave 3</div>
+      <div class="wave-title">Assembly + Deploy</div>
+      <div class="wave-status"><span class="badge badge-done">Complete</span></div>
+      <div class="wave-plans">
+        <code>02-05</code> FFmpeg + Thumbnail<br>
+        <code>02-06</code> YouTube + Workflow + API
+      </div>
+    </div>
+    <div class="wave-card">
+      <div class="wave-num">Wave 4</div>
+      <div class="wave-title">Validation</div>
+      <div class="wave-status"><span class="badge badge-pending">Pending</span></div>
+      <div class="wave-plans">
+        <code>02-07</code> Integration Tests<br>
+        Multi-channel Validation
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════ CLI PREVIEW ════════ -->
+<div class="section" id="cli">
+  <div class="section-title">CLI Terminal Preview (rich)</div>
+  <div class="section-desc">파이프라인 실행 시 터미널에 표시되는 실시간 진행 화면</div>
+
+  <!-- Running state -->
+  <div class="terminal">
+    <div class="terminal-bar">
+      <div class="terminal-dot red"></div>
+      <div class="terminal-dot yellow"></div>
+      <div class="terminal-dot green"></div>
+      <div class="terminal-title">pipeline — content-pipeline</div>
+    </div>
+    <div class="terminal-body">
+      <div class="rich-panel">
+        <div class="rich-panel-header">
+          <span class="t-white">Generating: "한국 부동산 투자 가이드"</span>
+        </div>
+        <div class="rich-panel-body">
+          <span class="t-muted">Channel:</span> channel_01 &nbsp;&nbsp;
+          <span class="t-muted">Run:</span> <span class="t-cyan">pipeline-abc12345</span>
+        </div>
+      </div>
+
+      <div style="margin: 16px 0;">
+        <span class="t-white" style="display:inline-block;width:120px;">Progress</span>
+        <div class="progress-bar-term"><div class="progress-bar-fill" style="width:40%"></div></div>
+        <span class="t-orange"> 40%</span> &nbsp;
+        <span class="t-muted">Scene 4/10</span>
+      </div>
+
+      <div style="margin: 8px 0;">
+        <span class="t-white" style="display:inline-block;width:120px;">Step</span>
+        <span class="t-cyan">image_gen_scene_04</span>
+      </div>
+
+      <div style="margin: 8px 0 20px;">
+        <span class="t-white" style="display:inline-block;width:120px;">Cost so far</span>
+        <span class="t-orange" style="font-size:16px;font-weight:700;">$0.80</span>
+      </div>
+
+      <div style="border-top:1px solid #30363D;padding-top:12px;">
+        <div style="margin:4px 0;">Scene 01 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-green">✓</span></div>
+        <div style="margin:4px 0;">Scene 02 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-green">✓</span></div>
+        <div style="margin:4px 0;">Scene 03 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-green">✓</span></div>
+        <div style="margin:4px 0;">Scene 04 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-orange">⟳</span></div>
+        <div style="margin:4px 0;"><span class="t-muted">Scene 05 &nbsp; script ○ &nbsp; image ○ &nbsp; tts ○ &nbsp; video ○</span></div>
+        <div style="margin:4px 0;"><span class="t-muted">Scene 06 &nbsp; script ○ &nbsp; image ○ &nbsp; tts ○ &nbsp; video ○</span></div>
+      </div>
+
+      <div style="margin-top:16px;border-top:1px solid #30363D;padding-top:12px;">
+        <span class="t-muted">Elapsed: 2m 34s</span> &nbsp;&nbsp;
+        <span class="t-muted">Est. remaining: 3m 50s</span> &nbsp;&nbsp;
+        <span class="t-muted">Model: fal:kling-2.5-turbo</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Complete state -->
+  <div style="margin-top:24px;">
+    <div class="section-desc">Complete State</div>
     <div class="terminal">
       <div class="terminal-bar">
         <div class="terminal-dot red"></div>
         <div class="terminal-dot yellow"></div>
         <div class="terminal-dot green"></div>
-        <div class="terminal-title">pipeline — content-pipeline</div>
+        <div class="terminal-title">pipeline — complete</div>
       </div>
       <div class="terminal-body">
-        <div class="rich-panel">
-          <div class="rich-panel-header">
-            <span class="t-white">Generating: "한국 부동산 투자 가이드"</span>
-          </div>
-          <div class="rich-panel-body">
-            <span class="t-muted">Channel:</span> channel_01 &nbsp;&nbsp;
-            <span class="t-muted">Run:</span> <span class="t-cyan">pipeline-abc12345</span>
-          </div>
+        <div style="margin:4px 0;"><span class="t-green" style="font-size:16px;">✓</span> <span class="t-white">Upload complete</span></div>
+        <div style="margin:12px 0;">
+          <span class="t-muted">YouTube:</span> <span class="t-cyan" style="text-decoration:underline;">https://youtu.be/abc123xyz</span>
         </div>
-
-        <div style="margin: 16px 0;">
-          <span class="t-white" style="display:inline-block;width:120px;">Progress</span>
-          <div class="progress-bar"><div class="progress-fill" style="width:40%"></div></div>
-          <span class="t-orange"> 40%</span> &nbsp;
-          <span class="t-muted">Scene 4/10</span>
+        <div style="margin:8px 0;">
+          <span class="t-muted">Channel:</span> channel_01 &nbsp;&nbsp;
+          <span class="t-muted">Duration:</span> 4:32 &nbsp;&nbsp;
+          <span class="t-muted">Scenes:</span> 10
         </div>
-
-        <div style="margin: 8px 0;">
-          <span class="t-white" style="display:inline-block;width:120px;">Step</span>
-          <span class="t-cyan">image_gen_scene_04</span>
+        <div style="margin:8px 0;">
+          <span class="t-muted">Total cost:</span> <span class="t-orange" style="font-weight:700;">$1.75</span> &nbsp;&nbsp;
+          <span class="t-muted">(video $1.40 + image $0.00 + tts $0.00)</span>
         </div>
-
-        <div style="margin: 8px 0 20px;">
-          <span class="t-white" style="display:inline-block;width:120px;">Cost so far</span>
-          <span class="t-orange" style="font-size:16px;font-weight:700;">$0.80</span>
-        </div>
-
-        <div style="border-top:1px solid #30363D;padding-top:12px;">
-          <div style="margin:4px 0;">Scene 01 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-green">✓</span></div>
-          <div style="margin:4px 0;">Scene 02 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-green">✓</span></div>
-          <div style="margin:4px 0;">Scene 03 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-green">✓</span></div>
-          <div style="margin:4px 0;">Scene 04 &nbsp; script <span class="t-green">✓</span> &nbsp; image <span class="t-green">✓</span> &nbsp; tts <span class="t-green">✓</span> &nbsp; video <span class="t-orange">⟳</span></div>
-          <div style="margin:4px 0;"><span class="t-muted">Scene 05 &nbsp; script ○ &nbsp; image ○ &nbsp; tts ○ &nbsp; video ○</span></div>
-          <div style="margin:4px 0;"><span class="t-muted">Scene 06 &nbsp; script ○ &nbsp; image ○ &nbsp; tts ○ &nbsp; video ○</span></div>
-        </div>
-
-        <div style="margin-top:16px;border-top:1px solid #30363D;padding-top:12px;">
-          <span class="t-muted">Elapsed: 2m 34s</span> &nbsp;&nbsp;
-          <span class="t-muted">Est. remaining: 3m 50s</span> &nbsp;&nbsp;
-          <span class="t-muted">Model: fal:kling-2.5-turbo</span>
+        <div style="margin:8px 0;">
+          <span class="t-muted">Time:</span> 6m 24s &nbsp;&nbsp;
+          <span class="t-muted">Output:</span> <span class="t-muted">data/pipeline/abc12345/final/output.mp4</span>
         </div>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Completion state -->
-    <div style="margin-top:24px;">
-      <div class="section-desc">완료 상태</div>
-      <div class="terminal">
-        <div class="terminal-bar">
-          <div class="terminal-dot red"></div>
-          <div class="terminal-dot yellow"></div>
-          <div class="terminal-dot green"></div>
-          <div class="terminal-title">pipeline — complete</div>
-        </div>
-        <div class="terminal-body">
-          <div style="margin:4px 0;"><span class="t-green" style="font-size:16px;">✓</span> <span class="t-white">Upload complete</span></div>
-          <div style="margin:12px 0;">
-            <span class="t-muted">YouTube:</span> <span class="t-cyan" style="text-decoration:underline;">https://youtu.be/abc123xyz</span>
-          </div>
-          <div style="margin:8px 0;">
-            <span class="t-muted">Channel:</span> channel_01 &nbsp;&nbsp;
-            <span class="t-muted">Duration:</span> 4:32 &nbsp;&nbsp;
-            <span class="t-muted">Scenes:</span> 10
-          </div>
-          <div style="margin:8px 0;">
-            <span class="t-muted">Total cost:</span> <span class="t-orange" style="font-weight:700;">$1.75</span> &nbsp;&nbsp;
-            <span class="t-muted">(video $1.40 + image $0.00 + tts $0.00)</span>
-          </div>
-          <div style="margin:8px 0;">
-            <span class="t-muted">Time:</span> 6m 24s &nbsp;&nbsp;
-            <span class="t-muted">Output:</span> <span class="t-muted">data/pipeline/abc12345/final/output.mp4</span>
-          </div>
-        </div>
-      </div>
+<!-- ════════ API ════════ -->
+<div class="section" id="api">
+  <div class="section-title">API Endpoints</div>
+  <div class="section-desc">FastAPI-based pipeline control API</div>
+
+  <div class="api-grid">
+    <div class="api-card">
+      <div class="api-method post">POST</div>
+      <div class="api-path">/api/pipeline/trigger</div>
+      <div class="api-desc">Start pipeline. Send topic + channel_id. Returns workflow_id.</div>
     </div>
+    <div class="api-card">
+      <div class="api-method get">GET</div>
+      <div class="api-path">/api/pipeline/status/{id}</div>
+      <div class="api-desc">Real-time status. Current step, scene progress, cost, YouTube URL.</div>
+    </div>
+    <div class="api-card">
+      <div class="api-method get">GET</div>
+      <div class="api-path">/api/pipeline/cost/{id}</div>
+      <div class="api-desc">Cost details. Per-service breakdown (fal.ai, etc.) + total.</div>
+    </div>
+    <div class="api-card">
+      <div class="api-method delete">DELETE</div>
+      <div class="api-path">/api/pipeline/{id}</div>
+      <div class="api-desc">Cancel pipeline. Terminates Temporal workflow.</div>
+    </div>
+  </div>
+</div>
 
-    <!-- Error state -->
-    <div style="margin-top:24px;">
-      <div class="section-desc">에러 상태</div>
-      <div class="terminal">
-        <div class="terminal-bar">
-          <div class="terminal-dot red"></div>
-          <div class="terminal-dot yellow"></div>
-          <div class="terminal-dot green"></div>
-          <div class="terminal-title">pipeline — error</div>
+<!-- ════════ COST ════════ -->
+<div class="section" id="cost">
+  <div class="section-title">Cost Breakdown (per video) <span class="editable">수정 가능</span></div>
+  <div class="section-desc">로컬 모델 무료 + 클라우드 비디오만 과금</div>
+
+  <div class="cost-grid">
+    <div class="cost-item">
+      <div class="cost-step">Script Gen</div>
+      <div class="cost-amount free">$0.00</div>
+      <div class="cost-provider">Qwen3.5 (local)</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-step">Image x10</div>
+      <div class="cost-amount free">$0.00</div>
+      <div class="cost-provider">SDXL (local)</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-step">TTS</div>
+      <div class="cost-amount free">$0.00</div>
+      <div class="cost-provider">CosyVoice2 (local)</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-step">Video x5</div>
+      <div class="cost-amount paid">~$1.75</div>
+      <div class="cost-provider">Kling 2.5 Turbo</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-step">FFmpeg</div>
+      <div class="cost-amount free">$0.00</div>
+      <div class="cost-provider">NVENC (local)</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-step">Thumbnail</div>
+      <div class="cost-amount free">$0.00</div>
+      <div class="cost-provider">SDXL+Pillow</div>
+    </div>
+    <div class="cost-item">
+      <div class="cost-step">Upload</div>
+      <div class="cost-amount free">$0.00</div>
+      <div class="cost-provider">YouTube API</div>
+    </div>
+  </div>
+
+  <div class="cost-total">
+    <div class="cost-total-label">Total Cost per Video</div>
+    <div class="cost-total-num">~$1.75</div>
+    <div class="cost-total-monthly">Monthly (1 video/day, 5 channels) = ~$260/mo</div>
+  </div>
+</div>
+
+<!-- ════════ COLORS ════════ -->
+<div class="section" id="colors">
+  <div class="section-title">Color System <span class="editable">수정 가능</span></div>
+  <div class="section-desc">claude.ai inspired — beige + orange warm tone</div>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-header">CLI Colors (rich)</div>
+    <div class="card-body">
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#0D1117;"></div>
+          <div class="color-label">Dominant 60%</div>
+          <div class="color-hex">Terminal BG</div>
+          <div class="color-role">Background</div>
         </div>
-        <div class="terminal-body">
-          <div style="margin:4px 0;"><span class="t-red" style="font-size:16px;">✗</span> <span class="t-red" style="font-weight:700;">Pipeline failed at video_clip_scene_03</span></div>
-          <div style="margin:12px 0;">
-            <span class="t-red">fal.ai API timeout after 120s — model overloaded</span>
-          </div>
-          <div style="margin:8px 0;">
-            <span class="t-muted">Retry:</span> GET /api/pipeline/status/<span class="t-cyan">pipeline-abc12345</span>
-          </div>
-          <div style="margin:8px 0;">
-            <span class="t-muted">Cost before failure:</span> <span class="t-orange">$0.60</span>
-          </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#666666;"></div>
+          <div class="color-label">Secondary 30%</div>
+          <div class="color-hex">bright_black</div>
+          <div class="color-role">Muted info</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#FF8700;"></div>
+          <div class="color-label">Accent 10%</div>
+          <div class="color-hex">#FF8700</div>
+          <div class="color-role">Cost, progress</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#22C55E;"></div>
+          <div class="color-label">Success</div>
+          <div class="color-hex">green</div>
+          <div class="color-role">Complete</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#EF4444;"></div>
+          <div class="color-label">Destructive</div>
+          <div class="color-hex">red</div>
+          <div class="color-role">Error</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Pipeline Flow -->
-  <div class="section" id="flow">
-    <div class="section-title">Pipeline Flow</div>
-    <div class="section-desc">토픽 입력부터 YouTube 업로드까지의 전체 흐름</div>
-
-    <div class="card">
-      <div class="card-body">
-        <div class="flow">
-          <div class="flow-step" style="border-color:var(--accent-orange);background:linear-gradient(135deg,#FFF8F0,#FFF);">
-            <div class="step-name">📝 토픽 입력</div>
-            <div class="step-model">POST /api/pipeline/trigger</div>
-            <div class="step-badge">START</div>
-          </div>
-          <div class="flow-arrow"></div>
-
-          <div class="flow-step">
-            <div class="step-name">🤖 스크립트 생성</div>
-            <div class="step-model">Qwen3.5-9B (로컬) / Gemini 2.5 Pro (클라우드)</div>
-            <div class="step-badge">GPU Queue</div>
-          </div>
-          <div class="flow-arrow"></div>
-
-          <div class="flow-parallel-line">
-            <div class="flow-step">
-              <div class="step-name">🖼️ 이미지 생성</div>
-              <div class="step-model">SDXL / FLUX (로컬) / fal.ai (클라우드)</div>
-              <div class="step-badge">GPU Queue</div>
-            </div>
-            <div class="flow-step">
-              <div class="step-name">🔊 TTS 생성</div>
-              <div class="step-model">CosyVoice2 (로컬) / Kokoro (폴백)</div>
-              <div class="step-badge">GPU Queue</div>
-            </div>
-          </div>
-          <div class="flow-arrow"></div>
-
-          <div class="flow-step">
-            <div class="step-name">🎬 비디오 생성</div>
-            <div class="step-model">Wan2GP (로컬 480p) / Kling 2.5 Turbo ($0.07/s) / Ken Burns (무료)</div>
-            <div class="step-badge">GPU Queue / API Queue</div>
-          </div>
-          <div class="flow-arrow"></div>
-
-          <div class="flow-step">
-            <div class="step-name">🎞️ FFmpeg 조립</div>
-            <div class="step-model">NVENC 인코딩 + 크로스페이드 트랜지션</div>
-            <div class="step-badge">CPU Queue</div>
-          </div>
-          <div class="flow-arrow"></div>
-
-          <div class="flow-parallel-line">
-            <div class="flow-step">
-              <div class="step-name">🖼️ 썸네일 생성</div>
-              <div class="step-model">SDXL + Pillow 텍스트 오버레이</div>
-              <div class="step-badge">CPU Queue</div>
-            </div>
-            <div class="flow-step" style="border-color:var(--success);background:linear-gradient(135deg,#F0FDF4,#FFF);">
-              <div class="step-name">📤 YouTube 업로드</div>
-              <div class="step-model">YouTube Data API v3 (Resumable Upload)</div>
-              <div class="step-badge" style="background:#ECFDF5;color:#059669;">API Queue</div>
-            </div>
-          </div>
+  <div class="card">
+    <div class="card-header">Dashboard Colors (Phase 3)</div>
+    <div class="card-body">
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#FAF6F1;"></div>
+          <div class="color-label">Background</div>
+          <div class="color-hex">#FAF6F1</div>
+          <div class="color-role">Beige BG</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#F5EDE4;"></div>
+          <div class="color-label">Surface</div>
+          <div class="color-hex">#F5EDE4</div>
+          <div class="color-role">Card BG</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#E8733A;"></div>
+          <div class="color-label">Primary</div>
+          <div class="color-hex">#E8733A</div>
+          <div class="color-role">CTA Button</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#2D2D2D;"></div>
+          <div class="color-label">Text</div>
+          <div class="color-hex">#2D2D2D</div>
+          <div class="color-role">Body text</div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-circle" style="background:#E8DDD0;"></div>
+          <div class="color-label">Border</div>
+          <div class="color-hex">#E8DDD0</div>
+          <div class="color-role">Dividers</div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Providers -->
-  <div class="section" id="providers">
-    <div class="section-title">Provider Architecture</div>
-    <div class="section-desc">channel YAML에서 "provider:model" 형식으로 자유롭게 교체 가능</div>
+<!-- ════════ CHANNEL CONFIG ════════ -->
+<div class="section" id="channel">
+  <div class="section-title">Channel Config <span class="editable">수정 가능</span></div>
+  <div class="section-desc">YAML로 채널별 모델/설정을 독립 관리 — channel_id만 바꾸면 동일 워크플로우</div>
 
-    <div class="provider-grid">
-      <div class="provider-card active">
-        <div class="provider-icon">💻</div>
-        <div class="provider-name">Local</div>
-        <div class="provider-desc">Ollama, ComfyUI, CosyVoice, Wan2GP</div>
-      </div>
-      <div class="provider-card active">
-        <div class="provider-icon">⚡</div>
-        <div class="provider-name">fal.ai</div>
-        <div class="provider-desc">600+ 모델, $0.07/s 비디오</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-icon">🔄</div>
-        <div class="provider-name">Replicate</div>
-        <div class="provider-desc">오픈소스 카탈로그</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-icon">🤝</div>
-        <div class="provider-name">Together.ai</div>
-        <div class="provider-desc">200+ LLM, 파인튜닝</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-icon">🔥</div>
-        <div class="provider-name">Fireworks.ai</div>
-        <div class="provider-desc">최저 레이턴시 LLM</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-icon">🎨</div>
-        <div class="provider-name">Krea.ai</div>
-        <div class="provider-desc">크리에이티브 이미지</div>
-      </div>
-      <div class="provider-card">
-        <div class="provider-icon">🌊</div>
-        <div class="provider-name">WaveSpeed</div>
-        <div class="provider-desc">Wan 최적화 추론</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Models -->
-  <div class="section" id="models">
-    <div class="section-title">Model Selection (RTX 4070 8GB)</div>
-    <div class="section-desc">PC 사양에 맞춰 선택된 기본 모델 + 교체 가능 옵션</div>
-
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">🎬 Video Generation</div>
-      <div class="card-body" style="padding:0;overflow-x:auto;">
-        <table class="model-table">
-          <tr><th>#</th><th>Model</th><th>VRAM</th><th>8GB?</th><th>Quality</th><th>Provider</th></tr>
-          <tr><td>1</td><td><strong>Wan 2.6</strong> via Wan2GP</td><td>~8GB (양자화)</td><td><span class="badge badge-quant">양자화</span></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge badge-local">Local</span></td></tr>
-          <tr><td>2</td><td><strong>Kling 2.5 Turbo</strong></td><td>Cloud</td><td><span class="badge badge-yes">Cloud</span></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge badge-cloud">fal.ai $0.07/s</span></td></tr>
-          <tr><td>3</td><td><strong>Wan 2.5</strong></td><td>~8GB (양자화)</td><td><span class="badge badge-quant">양자화</span></td><td>⭐⭐⭐⭐⭐</td><td><span class="badge badge-local">Local</span> <span class="badge badge-cloud">fal/replicate</span></td></tr>
-          <tr><td>4</td><td><strong>Ken Burns</strong> (폴백)</td><td>0GB</td><td><span class="badge badge-yes">YES</span></td><td>⭐⭐</td><td><span class="badge badge-local">Local (무료)</span></td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">🖼️ Image Generation</div>
-      <div class="card-body" style="padding:0;overflow-x:auto;">
-        <table class="model-table">
-          <tr><th>#</th><th>Model</th><th>VRAM</th><th>8GB?</th><th>Quality</th><th>Speed</th></tr>
-          <tr><td>1</td><td><strong>SDXL</strong> Juggernaut XL</td><td>6GB</td><td><span class="badge badge-yes">YES</span></td><td>⭐⭐⭐⭐</td><td>5-15s</td></tr>
-          <tr><td>2</td><td><strong>FLUX.1-schnell</strong> Q4 GGUF</td><td>~6GB</td><td><span class="badge badge-quant">양자화</span></td><td>⭐⭐⭐⭐</td><td>15-20s</td></tr>
-          <tr><td>3</td><td><strong>FLUX.1-dev</strong> Q5_K_S GGUF</td><td>~7-8GB</td><td><span class="badge badge-quant">양자화</span></td><td>⭐⭐⭐⭐⭐</td><td>45-60s</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="card" style="margin-bottom:16px;">
-      <div class="card-header">🔊 TTS (한국어)</div>
-      <div class="card-body" style="padding:0;overflow-x:auto;">
-        <table class="model-table">
-          <tr><th>#</th><th>Model</th><th>VRAM</th><th>Korean</th><th>License</th><th>Note</th></tr>
-          <tr><td>1</td><td><strong>CosyVoice2-0.5B</strong></td><td>~2GB</td><td>⭐⭐⭐⭐⭐</td><td>Apache 2.0</td><td>한국어 공식, 150ms</td></tr>
-          <tr><td>2</td><td><strong>Fish Speech S1-mini</strong></td><td>~2GB</td><td>⭐⭐⭐⭐</td><td>CC BY-NC-SA</td><td>TTS Arena 1위, 음성복제</td></tr>
-          <tr><td>3</td><td><strong>Kokoro</strong></td><td>&lt;1GB</td><td>⭐⭐⭐</td><td>Apache 2.0</td><td>초경량, 96x 실시간</td></tr>
-          <tr style="background:#FEF2F2;"><td>—</td><td><s>IndexTTS-2</s></td><td>~4-8GB</td><td>⭐⭐ <span class="badge badge-no">미지원</span></td><td>Apache 2.0</td><td>한국어 공식 미지원</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <div class="card">
-      <div class="card-header">🤖 LLM (스크립트)</div>
-      <div class="card-body" style="padding:0;overflow-x:auto;">
-        <table class="model-table">
-          <tr><th>#</th><th>Model</th><th>VRAM (Q4)</th><th>Korean</th><th>Speed</th><th>Provider</th></tr>
-          <tr><td>1</td><td><strong>Qwen3.5-9B</strong></td><td>~7GB</td><td>⭐⭐⭐⭐⭐</td><td>54-58 t/s</td><td><span class="badge badge-local">Local</span></td></tr>
-          <tr><td>2</td><td><strong>Qwen3 8B</strong></td><td>~5-6GB</td><td>⭐⭐⭐⭐⭐</td><td>40+ t/s</td><td><span class="badge badge-local">Local</span></td></tr>
-          <tr><td>3</td><td><strong>Gemini 2.5 Pro</strong></td><td>Cloud</td><td>⭐⭐⭐⭐⭐</td><td>Fast</td><td><span class="badge badge-cloud">Google API</span></td></tr>
-        </table>
-      </div>
-    </div>
-  </div>
-
-  <!-- Wave Plan -->
-  <div class="section" id="waves">
-    <div class="section-title">Execution Waves</div>
-    <div class="section-desc">7개 Plan을 4개 Wave로 병렬 실행</div>
-
-    <div class="wave-timeline">
-      <div class="wave-card">
-        <div class="wave-num">Wave 1</div>
-        <div class="wave-title">기반 구축</div>
-        <div class="wave-plans">
-          <code>02-01</code> Provider 추상화 + 스키마<br>
-          <code>02-02</code> 채널 Config + 템플릿
-        </div>
-      </div>
-      <div class="wave-card">
-        <div class="wave-num">Wave 2</div>
-        <div class="wave-title">생성 엔진</div>
-        <div class="wave-plans">
-          <code>02-03</code> 스크립트 + TTS<br>
-          <code>02-04</code> 이미지 + 비디오 + 비용추적
-        </div>
-      </div>
-      <div class="wave-card">
-        <div class="wave-num">Wave 3</div>
-        <div class="wave-title">조립 + 배포</div>
-        <div class="wave-plans">
-          <code>02-05</code> FFmpeg 조립 + 썸네일<br>
-          <code>02-06</code> YouTube 업로드 + API
-        </div>
-      </div>
-      <div class="wave-card">
-        <div class="wave-num">Wave 4</div>
-        <div class="wave-title">검증</div>
-        <div class="wave-plans">
-          <code>02-07</code> 통합 테스트<br>
-          멀티채널 검증
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- API -->
-  <div class="section" id="api">
-    <div class="section-title">API Endpoints</div>
-    <div class="section-desc">FastAPI 기반 파이프라인 제어 API</div>
-
-    <div class="api-grid">
-      <div class="api-card">
-        <div class="api-method post">POST</div>
-        <div class="api-path">/api/pipeline/trigger</div>
-        <div class="api-desc">파이프라인 시작. topic + channel_id 전송. workflow_id 반환.</div>
-      </div>
-      <div class="api-card">
-        <div class="api-method get">GET</div>
-        <div class="api-path">/api/pipeline/status/{id}</div>
-        <div class="api-desc">실시간 진행 상태. 현재 step, scene 진행률, 비용, YouTube URL 포함.</div>
-      </div>
-      <div class="api-card">
-        <div class="api-method get">GET</div>
-        <div class="api-path">/api/pipeline/cost/{id}</div>
-        <div class="api-desc">비용 상세. fal.ai 등 서비스별 breakdown + 총액.</div>
-      </div>
-      <div class="api-card">
-        <div class="api-method delete">DELETE</div>
-        <div class="api-path">/api/pipeline/{id}</div>
-        <div class="api-desc">파이프라인 취소. Temporal workflow 종료.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Color System -->
-  <div class="section" id="colors">
-    <div class="section-title">Color System</div>
-    <div class="section-desc">claude.ai 영감 — 베이지 + 오렌지 톤 (CLI: rich / 미래 대시보드: CSS)</div>
-
-    <div class="card">
-      <div class="card-header">CLI Colors (rich)</div>
-      <div class="card-body">
-        <div class="color-grid">
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#0D1117;"></div>
-            <div class="color-label">Dominant 60%</div>
-            <div class="color-hex">Terminal BG</div>
-            <div class="color-role">기본 배경</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#666666;"></div>
-            <div class="color-label">Secondary 30%</div>
-            <div class="color-hex">bright_black</div>
-            <div class="color-role">Muted 정보</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#FF8700;"></div>
-            <div class="color-label">Accent 10%</div>
-            <div class="color-hex">#FF8700</div>
-            <div class="color-role">비용, 진행률</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#22C55E;"></div>
-            <div class="color-label">Success</div>
-            <div class="color-hex">green</div>
-            <div class="color-role">완료, 성공</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#EF4444;"></div>
-            <div class="color-label">Destructive</div>
-            <div class="color-hex">red</div>
-            <div class="color-role">에러, 실패</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="card" style="margin-top:16px;">
-      <div class="card-header">Dashboard Colors (Phase 3 준비)</div>
-      <div class="card-body">
-        <div class="color-grid">
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#FAF6F1;"></div>
-            <div class="color-label">Background</div>
-            <div class="color-hex">#FAF6F1</div>
-            <div class="color-role">Beige 배경</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#F5EDE4;"></div>
-            <div class="color-label">Surface</div>
-            <div class="color-hex">#F5EDE4</div>
-            <div class="color-role">카드 배경</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#E8733A;"></div>
-            <div class="color-label">Primary</div>
-            <div class="color-hex">#E8733A</div>
-            <div class="color-role">CTA 버튼</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#2D2D2D;"></div>
-            <div class="color-label">Text</div>
-            <div class="color-hex">#2D2D2D</div>
-            <div class="color-role">본문 텍스트</div>
-          </div>
-          <div class="color-swatch">
-            <div class="color-circle" style="background:#E8DDD0;"></div>
-            <div class="color-label">Border</div>
-            <div class="color-hex">#E8DDD0</div>
-            <div class="color-role">구분선</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Channel Config -->
-  <div class="section" id="channel">
-    <div class="section-title">Channel Config 예시</div>
-    <div class="section-desc">YAML로 채널별 모델/설정을 독립 관리</div>
-
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
-      <div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:var(--accent-warm);">channel_01.yaml (일반)</div>
-        <div class="yaml-preview">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+    <div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:var(--accent-warm);">channel_01.yaml (General)</div>
+      <div class="yaml-preview">
 <span class="yaml-key">channel_id</span>: <span class="yaml-val">channel_01</span>
-<span class="yaml-key">niche</span>: <span class="yaml-val">"한국 일반 콘텐츠"</span>
+<span class="yaml-key">niche</span>: <span class="yaml-val">"Korean General Content"</span>
 <span class="yaml-key">language</span>: <span class="yaml-val">ko</span>
 
 <span class="yaml-comment"># AI Models</span>
@@ -998,44 +1373,98 @@
 <span class="yaml-comment"># TTS</span>
 <span class="yaml-key">tts_voice</span>: <span class="yaml-val">"korean_male_01"</span>
 <span class="yaml-key">tts_speed</span>: <span class="yaml-val">1.0</span>
-
-<span class="yaml-comment"># Template</span>
-<span class="yaml-key">prompt_template</span>: <span class="yaml-val">"script_default.j2"</span>
-        </div>
       </div>
-      <div>
-        <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:var(--accent-warm);">channel_02.yaml (금융)</div>
-        <div class="yaml-preview">
+    </div>
+    <div>
+      <div style="font-weight:600;font-size:13px;margin-bottom:8px;color:var(--accent-warm);">channel_02.yaml (Finance)</div>
+      <div class="yaml-preview">
 <span class="yaml-key">channel_id</span>: <span class="yaml-val">channel_02</span>
-<span class="yaml-key">niche</span>: <span class="yaml-val">"한국 금융/투자"</span>
+<span class="yaml-key">niche</span>: <span class="yaml-val">"Korean Finance/Investing"</span>
 <span class="yaml-key">language</span>: <span class="yaml-val">ko</span>
 
-<span class="yaml-comment"># AI Models — 다른 모델!</span>
+<span class="yaml-comment"># AI Models — Different!</span>
 <span class="yaml-key">llm_model</span>: <span class="yaml-val">"local:qwen3-8b"</span>
 <span class="yaml-key">image_model</span>: <span class="yaml-val">"local:flux-dev"</span>
 <span class="yaml-key">tts_model</span>: <span class="yaml-val">"local:kokoro"</span>
 <span class="yaml-key">video_model</span>: <span class="yaml-val">"local:wan2gp"</span>
 
-<span class="yaml-comment"># Video Gen — 로컬 무료</span>
+<span class="yaml-comment"># Video Gen — Local free</span>
 <span class="yaml-key">vgen_enabled</span>: <span class="yaml-val">true</span>
 <span class="yaml-key">scenes_per_video</span>: <span class="yaml-val">8</span>
 
 <span class="yaml-comment"># TTS</span>
 <span class="yaml-key">tts_voice</span>: <span class="yaml-val">"korean_female_01"</span>
 <span class="yaml-key">tts_speed</span>: <span class="yaml-val">1.1</span>
-
-<span class="yaml-comment"># Template</span>
-<span class="yaml-key">prompt_template</span>: <span class="yaml-val">"script_finance.j2"</span>
-        </div>
       </div>
     </div>
   </div>
-
 </div>
 
+<!-- ════════ FILE STRUCTURE ════════ -->
+<div class="section" id="files">
+  <div class="section-title">File Structure</div>
+  <div class="section-desc">Phase 1 (✓ green) + Phase 2 (NEW orange) 파일 레이아웃</div>
+
+  <div class="file-tree">
+<span class="ft-dir">src/</span>
+  <span class="ft-dir">config/</span>
+    <span class="ft-done">settings.py</span> <span style="color:#059669;">✓ Phase 1</span>
+    <span class="ft-new">channels/</span> <span style="color:#FF8700;">NEW</span>
+      <span class="ft-new">channel_01.yaml</span>
+      <span class="ft-new">channel_02.yaml</span>
+  <span class="ft-dir">models/</span>
+    <span class="ft-done">database.py</span> <span style="color:#059669;">✓</span>
+    <span class="ft-new">content.py</span> <span style="color:#FF8700;">NEW — ScriptScene, CostEntry</span>
+  <span class="ft-dir">schemas/</span>
+    <span class="ft-done">pipeline.py</span> <span style="color:#059669;">✓</span>
+    <span class="ft-new">content.py</span> <span style="color:#FF8700;">NEW — PipelineTriggerRequest/Response</span>
+  <span class="ft-dir">providers/</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">base.py</span> <span style="color:#FF8700;">ModelProvider ABC, ModelSpec</span>
+    <span class="ft-new">local.py</span> <span style="color:#FF8700;">Ollama, ComfyUI, CosyVoice, Wan2GP</span>
+    <span class="ft-new">fal_ai.py</span> <span style="color:#FF8700;">fal.ai integration</span>
+    <span class="ft-new">replicate.py</span>
+    <span class="ft-new">together.py</span>
+    <span class="ft-new">fireworks.py</span>
+    <span class="ft-new">krea.py</span>
+    <span class="ft-new">wavespeed.py</span>
+    <span class="ft-new">registry.py</span> <span style="color:#FF8700;">Provider factory</span>
+  <span class="ft-dir">services/</span>
+    <span class="ft-done">sheets_sync.py</span> <span style="color:#059669;">✓</span>
+    <span class="ft-new">script_gen.py</span> <span style="color:#FF8700;">NEW — LLM script generation</span>
+    <span class="ft-new">tts.py</span> <span style="color:#FF8700;">NEW — TTS audio generation</span>
+    <span class="ft-new">image_gen.py</span> <span style="color:#FF8700;">NEW — Image generation</span>
+    <span class="ft-new">video_gen.py</span> <span style="color:#FF8700;">NEW — Video gen + Ken Burns</span>
+    <span class="ft-new">ffmpeg_assembler.py</span> <span style="color:#FF8700;">NEW — FFmpeg NVENC</span>
+    <span class="ft-new">thumbnail.py</span> <span style="color:#FF8700;">NEW — Thumbnail gen</span>
+    <span class="ft-new">youtube_upload.py</span> <span style="color:#FF8700;">NEW — YouTube Data API</span>
+    <span class="ft-new">cost_tracker.py</span> <span style="color:#FF8700;">NEW — Per-call cost logging</span>
+  <span class="ft-dir">workflows/</span>
+    <span class="ft-done">validation.py</span> <span style="color:#059669;">✓</span>
+    <span class="ft-new">content_pipeline.py</span> <span style="color:#FF8700;">NEW — ContentPipelineWorkflow</span>
+  <span class="ft-dir">activities/</span>
+    <span class="ft-done">gpu_activity.py</span> <span style="color:#059669;">✓</span>
+    <span class="ft-new">script_activity.py</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">image_activity.py</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">tts_activity.py</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">video_activity.py</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">ffmpeg_activity.py</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">thumbnail_activity.py</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">upload_activity.py</span> <span style="color:#FF8700;">NEW</span>
+  <span class="ft-dir">templates/</span> <span style="color:#FF8700;">NEW</span>
+    <span class="ft-new">script_default.j2</span>
+    <span class="ft-new">script_finance.j2</span>
+<span class="ft-dir">tests/</span>
+  <span class="ft-new">test_providers.py</span> <span style="color:#FF8700;">NEW</span>
+  <span class="ft-new">test_content_pipeline.py</span> <span style="color:#FF8700;">NEW</span>
+  <span class="ft-new">test_integration_phase2.py</span> <span style="color:#FF8700;">NEW</span>
+  </div>
+</div>
+
+</div><!-- /container -->
+
 <div class="footer">
-  Phase 2: Content Pipeline — Design Preview<br>
-  Generated 2026-04-02 | YouTube Video Automation Pipeline
+  YouTube Video Automation Pipeline — Phase 2 Infographic<br>
+  Generated 2026-04-02 | <span class="editable">수정 가능</span> sections can be changed — ask Claude
 </div>
 
 </body>
